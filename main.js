@@ -61,7 +61,8 @@ function renderTask(){
 }
 
 function startButtonHandler(id){
-    time = 25 * 60
+    //time = 25 * 60
+    time = 5
     actual = id
     const taskIndex = tareas.findIndex(task => task.id = id)
     
@@ -77,9 +78,11 @@ function timeHandler(id){
     renderTime()
     if (time==0){
         clearInterval(timer)
-        actual=null // porque ya terminamos la tarea
-        taskName.textContent=''
-        renderTime()
+        //actual=null // porque ya terminamos la tarea
+        //taskName.textContent=''
+        markCompleted(id)
+        renderTask()
+        startBreak()
     }
 }
 
@@ -87,5 +90,34 @@ function renderTime(){
     const timeDiv = document.querySelector("#time #value")
     const minutes = parseInt(time / 60)
     const seconds = parseInt(time % 60)
-    timeDiv.textContent = `${minutes <10 ? '0' :''}${minutes}:${seconds<s10 ? '0':''}${seconds}`
+    timeDiv.textContent = `${minutes <10 ? '0' :''}${minutes}:${seconds<10 ? '0':''}${seconds}`
 }
+
+function markCompleted(id) {
+    const taskIndex = tareas.findIndex(task => task.id = id)
+    tareas[taskIndex].completed=true
+}
+
+function startBreak() {
+    //time = 5 * 60
+    time = 10
+    taskName.textContent = 'Break'
+    timerBreak = setInterval(() => {
+        timerBreakHandler()
+    },1000)
+
+}
+
+function timerBreakHandler() {
+    time--
+    renderTime()
+    if (time==0){
+        clearInterval(timerBreak)
+        actual=null // porque ya terminamos la tarea
+        taskName.textContent=''
+        renderTask()
+        
+    }
+
+}
+
