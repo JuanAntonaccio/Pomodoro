@@ -14,6 +14,8 @@ const bAdd = document.querySelector("#bAdd")
 const itTask= document.querySelector("#itTask")
 const form = document.querySelector("#form")
 const taskName = document.querySelector('#time #taskName')
+renderTime()
+renderTask()
 
 form.addEventListener('submit', (e) => {
     e.preventDefault() // anulamos su funcionamiento nativo
@@ -67,6 +69,7 @@ function startButtonHandler(id){
     const taskIndex = tareas.findIndex(task => task.id = id)
     
     taskName.textContent = tareas[taskIndex].title
+    renderTime()
     timer = setInterval(() =>{
         timeHandler(id)
     },1000)// 1000 ms = 1 seg
@@ -81,6 +84,7 @@ function timeHandler(id){
         //actual=null // porque ya terminamos la tarea
         //taskName.textContent=''
         markCompleted(id)
+        timer=null
         renderTask()
         startBreak()
     }
@@ -102,6 +106,7 @@ function startBreak() {
     //time = 5 * 60
     time = 10
     taskName.textContent = 'Break'
+    renderTime()
     timerBreak = setInterval(() => {
         timerBreakHandler()
     },1000)
@@ -115,6 +120,7 @@ function timerBreakHandler() {
         clearInterval(timerBreak)
         actual=null // porque ya terminamos la tarea
         taskName.textContent=''
+        timerBreak=null
         renderTask()
         
     }
